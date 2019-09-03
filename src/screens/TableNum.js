@@ -11,14 +11,31 @@ class TableNum extends Component {
   constructor() {
     super();
     this.state = {
-      tableNum: 0
+      tableNum: 0,
+      buttonDisabled: false
     }
+  }
+
+  componentDidMount() {
+    this.setState({
+      buttonDisabled: true
+    });
   }
 
   _handleInput = (num) => {
     this.setState({
       tableNum: num
     });
+
+    if (num !== '') {
+      this.setState({
+        buttonDisabled: false
+      });
+    } else {
+      this.setState({
+        buttonDisabled: true
+      });
+    }
   }
 
   _handleSubmit = async () => {
@@ -61,18 +78,18 @@ class TableNum extends Component {
           
             <Form style={[formGroup, styles.input]}>
               <Item regular style={borderRadius}>
-                <Icon name='ios-keypad' />
-                <Input placeholder="Insert your table number here" keyboardType="numeric" onChangeText={this._handleInput} />
+                {/* <Icon name='ios-keypad' /> */}
+                <Input placeholder="Insert your table number here" keyboardType="numeric" onChangeText={this._handleInput} style={{textAlign: "center"}} />
               </Item>
             </Form>
           
             <View>
-              <Button block onPress={this._handleSubmit} style={[borderRadius, {backgroundColor: theme.color.secondary}]}>
+              <Button disabled={this.state.buttonDisabled} block onPress={this._handleSubmit} style={[borderRadius, {backgroundColor: (this.state.buttonDisabled ? theme.color.grey : theme.color.secondary)}]}>
                 {this.props.isLoading && (
                   <Spinner color="#fff" />
                 )}
                 {!this.props.isLoading && (
-                  <Text>Submit</Text>
+                  <Text style={{color: (this.state.buttonDisabled ? '#5a5a5a' : '#fff')}}>Let's order</Text>
                 )}
               </Button>
             </View>
