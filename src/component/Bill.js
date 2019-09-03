@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { TouchableOpacity, View, ActivityIndicator, FlatList, StyleSheet } from "react-native";
-import { Container, Content, Header, Body, Right, Icon, H3, Text, Button } from "native-base";
+import { Container, Content, Header, Body, Right, Icon, H3, Text, Button, Spinner } from "native-base";
 import AsyncStorage from "@react-native-community/async-storage";
 import { connect } from "react-redux";
 
@@ -36,6 +36,7 @@ class Bill extends Component {
 
     await this.getBill(headersConfig);
 
+    this.checkOrders();
     setInterval(() => {
       this.checkOrders();
     }, 1000);
@@ -69,13 +70,16 @@ class Bill extends Component {
       ...this.props.transaction,
       finishedTime: this.props.timer
     }
-    await this.props.dispatch(finishTransaction(data, this.state.headersConfig));
+
+    try {
+      await this.props.dispatch(finishTransaction(data, this.state.headersConfig));
     
-    if (!this.props.isLoading && this.props.message == '') {
       await AsyncStorage.removeItem('token');
       await AsyncStorage.removeItem('tableNum');
 
       this.props.navigation.navigate('Finished');
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -117,7 +121,12 @@ class Bill extends Component {
         <View style={[container, styles.transactionContainer]}>
           <DetailTransaction data={this.props.transaction} />
           <Button disabled={this.state.buttonDisabled} full onPress={this._handleCall} style={[borderRadius, {backgroundColor: (this.state.buttonDisabled ? theme.color.grey : theme.color.primary)}]}>
-            <Text>Call Bill</Text>
+            {this.props.isLoading && (
+              <Spinner color="#fff" />
+            )}
+            {!this.props.isLoading && (
+              <Text>Submit</Text>
+            )}
           </Button>
         </View>
       </Container>

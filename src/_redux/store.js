@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 
-import {logger, promise} from "./middleware";
+import {promise} from "./middleware";
 // reducers
 import transaction from "../_reducers/transaction";
 import menus from "../_reducers/menus";
@@ -14,7 +14,7 @@ const reducers = combineReducers({
   timer
 });
 
-const middlewares = applyMiddleware(logger, promise);
+const middlewares = applyMiddleware(promise);
 
 const store = createStore(reducers, middlewares);
 

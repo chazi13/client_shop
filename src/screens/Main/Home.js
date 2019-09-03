@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, FlatList, Alert, ActivityIndicator, StyleSheet } from 'react-native';
-import { Container, Header, Left, Right, H3, Spinner, Tabs, Tab, Button, Text } from "native-base";
+import { Container, Header, Left, Right, H3, Spinner, Tabs, Tab, Button, Text, ScrollableTab } from "native-base";
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-community/async-storage";
 import Modal from "react-native-modal";
@@ -115,7 +115,7 @@ class Home extends Component {
               </View>
             )}
             {!this.props.isLoading && (
-              <Tabs>
+              <Tabs renderTabBar={() => (<ScrollableTab />)}>
                 {this.state.menus && this.state.menus.map(category => (
                   <Tab 
                     key={category.id} 
@@ -130,6 +130,7 @@ class Home extends Component {
                       numColumns={2}
                       renderItem={({item}) => (<MenuItem data={item} />)}
                       keyExtractor={item => item.id.toString()}
+                      ListFooterComponentStyle={{paddingVertical: 100}}
                     />
                   </Tab>
                 ))}
@@ -140,7 +141,7 @@ class Home extends Component {
           <View style={[container, floatLeft, styles.orderList]}>
             <View style={[container, {flex: 3}]}>
               <View style={[borderRadius, container, backgroundGray, styles.orderContainer]}>
-                <H3>Your orders:</H3>
+                <Text>Your orders:</Text>
                 <FlatList
                   horizontal={true}
                   data={this.props.orders}
@@ -151,8 +152,8 @@ class Home extends Component {
             </View>
 
             <View style={[container, {flex: 2}]}>
-              <View style={[{marginHorizontal: -6}]}>
-                <View style={{paddingHorizontal: 3}}>
+              <View style={styles.row}>
+                <View style={styles.col}>
                   <Button disabled={this.props.orders.length > 0 ? false : true} full block onPress={this._handleConfirm} style={[borderRadius, styles.buttonPrimary, {backgroundColor: (this.props.orders.length > 0 ? theme.color.secondary : this.state.buttonCofirmColor)}]}>
                     {this.props.ordersLoading && (
                       <ActivityIndicator color="#fff" />
@@ -162,7 +163,7 @@ class Home extends Component {
                     )}
                   </Button>
                 </View>
-                <View style={{paddingHorizontal: 3, paddingTop: 10}}>
+                <View style={[styles.col, {paddingTop: 10}]}>
                   <Button full onPress={this._toggleModal} style={[borderRadius, backgroundPrimary]}>
                     <Text>View Bill</Text>
                   </Button>
@@ -198,11 +199,17 @@ const styles = StyleSheet.create({
   },
   flatClear: {
     marginHorizontal: -5, 
-    paddingTop: 10
+    paddingTop: 5
+  },
+  row: {
+    marginHorizontal: -6
+  },
+  col: {
+    paddingHorizontal: 3
   },
   orderList: {
     flex: 1,
-    paddingVertical: 20, 
+    paddingVertical: 5, 
     marginHorizontal: -10
   },
   orderContainer: {
@@ -212,6 +219,6 @@ const styles = StyleSheet.create({
     borderColor: '#dedede'
   },
   buttonPrimary: {
-    height: 70
+    // height: '60%'
   }
 })

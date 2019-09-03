@@ -35,7 +35,7 @@ class OrderItem extends Component {
 
     return (
       <TouchableOpacity onPress={() => this._handleMinOrders(data)} style={styles.orderContainer}>
-        <Thumbnail large source={{ uri: image }} />
+        <Thumbnail source={{ uri: image }} />
         <Badge success style={styles.badge}>
           <Text>{qty}</Text>
         </Badge>
