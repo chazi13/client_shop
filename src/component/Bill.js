@@ -96,38 +96,35 @@ class Bill extends Component {
             </TouchableOpacity>
           </Right>
         </Header>
-        <Content style={container}>
-          {this.props.isLoading && (
-            <View>
-              <ActivityIndicator color={theme.color.primary} />
-            </View>
-          )}
+        <View style={{flex: 1}}>
+          <View style={[container, {flex: 2}]}>
+            {/* {this.props.isLoading && (
+              <View>
+                <ActivityIndicator color={theme.color.primary} />
+              </View>
+            )} */}
 
-          {this.props.orders && (
-            <FlatList
-              data={this.props.orders}
-              renderItem={({item}) => (<OrderList data={item} />)}
-              keyExtractor={item => item.id.toString()}
-            />
-          )}
-          
-          {this.props.orders.length < 1 && (
-            <View style={styles.void}>
-              <H3 style={textCenter}>You not order nothing!</H3>
-              <Text style={textCenter}>Please order something first</Text>
-            </View>
-          )}
-        </Content>
-        <View style={[container, styles.transactionContainer]}>
-          <DetailTransaction data={this.props.transaction} />
-          <Button disabled={this.state.buttonDisabled} full onPress={this._handleCall} style={[borderRadius, {backgroundColor: (this.state.buttonDisabled ? theme.color.grey : theme.color.primary)}]}>
-            {this.props.isLoading && (
-              <Spinner color="#fff" />
+            {this.props.orders && (
+              <FlatList
+                data={this.props.orders}
+                renderItem={({item}) => (<OrderList data={item} />)}
+                keyExtractor={item => item.id.toString()}
+              />
             )}
-            {!this.props.isLoading && (
-              <Text>Submit</Text>
+            
+            {this.props.orders.length < 1 && (
+              <View style={styles.void}>
+                <H3 style={textCenter}>You not order nothing!</H3>
+                <Text style={textCenter}>Please order something first</Text>
+              </View>
             )}
-          </Button>
+          </View>
+          <View style={[container, styles.transactionContainer]}>
+            <DetailTransaction data={this.props.transaction} />
+            <Button disabled={this.state.buttonDisabled} full onPress={this._handleCall} style={[borderRadius, {backgroundColor: (this.state.buttonDisabled ? theme.color.grey : theme.color.primary)}]}>
+              <Text>Pay</Text>
+            </Button>
+          </View>
         </View>
       </Container>
     )
@@ -152,7 +149,8 @@ const styles =  StyleSheet.create({
     paddingVertical: 50
   },
   transactionContainer: {
-    paddingBottom: 10, 
+    paddingVertical: 10,
+    flex: 1,
     justifyContent: "flex-end"
   }
 })

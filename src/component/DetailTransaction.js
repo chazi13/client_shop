@@ -18,14 +18,14 @@ class DetailTransaction extends Component {
             <Text style={textRight}>{convertToRupiah(new Number(subtotal))}</Text>
           </View>
         </View>
-        <View style={[floatLeft, {borderBottomColor: '#dedede', borderBottomWidth: 1, paddingVertical: 5}]}>
+        {/* <View style={[floatLeft, {borderBottomColor: '#dedede', borderBottomWidth: 1, paddingVertical: 5}]}>
           <View style={{flex: 1}}>
             <Text>Discount</Text>
           </View>
           <View style={{flex: 1}}>
             <Text style={textRight}>{convertToRupiah(new Number(discount))}</Text>
           </View>
-        </View>
+        </View> */}
         <View style={[floatLeft, {borderBottomColor: '#dedede', borderBottomWidth: 1, paddingVertical: 5}]}>
           <View style={{flex: 1}}>
             <Text>Service Charge (5.5%)</Text>

@@ -9,7 +9,7 @@ class OrderItem extends Component {
 
   _handleMinOrders = async (data) => {
     let orders = this.props.orders;
-    console.log(orders);
+
     const index = orders.findIndex(item => {
       return item.id == data.id
     });
@@ -35,7 +35,7 @@ class OrderItem extends Component {
 
     return (
       <TouchableOpacity onPress={() => this._handleMinOrders(data)} style={styles.orderContainer}>
-        <Thumbnail source={{ uri: image }} />
+        <Thumbnail large source={{ uri: image }} />
         <Badge success style={styles.badge}>
           <Text>{qty}</Text>
         </Badge>
@@ -54,7 +54,8 @@ export default connect(mapStateToProps)(OrderItem);
 
 const styles = StyleSheet.create({
   orderContainer: {
-    paddingHorizontal: 3
+    paddingHorizontal: 5,
+    paddingTop: 5
   },
   badge: {
     top: 0, 
