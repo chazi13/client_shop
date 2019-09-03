@@ -23,20 +23,19 @@ const orders = (state = initialState, action) => {
         ]
       };
 
-    case 'REMOVE_ORDERS_PENDING':
+    case 'SEND_ORDERS_PENDING':
       return {
         ...state,
         isLoading: true
       };
 
-    case 'REMOVE_ORDERS_FULFILLED':
+    case 'SEND_ORDERS_FULFILLED':
         return {
           ...state,
-          isLoading: false,
-          orders: []
+          isLoading: false
         };
 
-    case 'REMOVE_ORDERS_REJECTED':
+    case 'SEND_ORDERS_REJECTED':
       return {
         ...state,
         isLoading: false,
