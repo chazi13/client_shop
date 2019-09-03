@@ -76,6 +76,7 @@ class Home extends Component {
     }
 
     await this.props.dispatch(sendOrders(orders, headersConfig));
+    this._toggleModal();
     setTimeout(() => {
       this.props.dispatch(updateStatusOrders(headersConfig));
       this.getBill(headersConfig);
@@ -96,22 +97,21 @@ class Home extends Component {
 
     return (
       <Container>
-        <Header style={backgroundSecondary} androidStatusBarColor={theme.color.secondary}>
-          <Left>
-            <H3 style={[borderRadius, {color: '#fff'}]}>{this.state.tableNum}</H3>
-          </Left>
-          <Right>
-            <H3 style={{color: '#fff'}}>
-              {convertToMinutes(this.state.countdown)}
-            </H3>
-          </Right>
-        </Header>
-        
         <View style={styles.spaceBetween}>
-          <View style={{flex: 4}}>
+            <View style={{flex: 4}}>
+              <Header style={[backgroundSecondary]} androidStatusBarColor={theme.color.secondary}>
+                <Left>
+                  <H3 style={[borderRadius, styles.cicleText]}>{this.state.tableNum}</H3>
+                </Left>
+                <Right>
+                  <H3 style={{color: '#fff'}}>
+                    {convertToMinutes(this.state.countdown)}
+                  </H3>
+                </Right>
+              </Header>
             {this.props.isLoading && (
               <View>
-                <Spinner color={theme.color.primary} />
+                <Spinner color={theme.color.secondary} />
               </View>
             )}
             {!this.props.isLoading && (
@@ -138,39 +138,41 @@ class Home extends Component {
             )}
           </View>
 
-          <View style={[container, floatLeft, styles.orderList]}>
-            <View style={[container, {flex: 3}]}>
-              <View style={[borderRadius, container, backgroundGray, styles.orderContainer]}>
-                <Text>Your orders:</Text>
-                <FlatList
-                  horizontal={true}
-                  data={this.props.orders}
-                  keyExtractor={(item) => item.id.toString()}
-                  renderItem={({item}) => (<OrderItem data={item} />)}
-                />
+          {this.props.orders.length > 0 && (
+            <View style={[container, floatLeft, styles.orderList]}>
+              <View style={[container, {flex: 3}]}>
+                <View style={[borderRadius, container, backgroundGray, styles.orderContainer]}>
+                  <Text>Your orders:</Text>
+                  <FlatList
+                    horizontal={true}
+                    data={this.props.orders}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({item}) => (<OrderItem data={item} />)}
+                  />
+                </View>
               </View>
-            </View>
 
-            <View style={[container, {flex: 2}]}>
-              <View style={styles.row}>
-                <View style={styles.col}>
-                  <Button disabled={this.props.orders.length > 0 ? false : true} full block onPress={this._handleConfirm} style={[borderRadius, styles.buttonPrimary, {backgroundColor: (this.props.orders.length > 0 ? theme.color.secondary : this.state.buttonCofirmColor)}]}>
-                    {this.props.ordersLoading && (
-                      <ActivityIndicator color="#fff" />
-                    )}
-                    {!this.props.ordersLoading && (
-                      <Text>Confirm</Text>
-                    )}
-                  </Button>
-                </View>
-                <View style={[styles.col, {paddingTop: 10}]}>
-                  <Button full onPress={this._toggleModal} style={[borderRadius, backgroundPrimary]}>
-                    <Text>View Bill</Text>
-                  </Button>
+              <View style={[container, {flex: 2}]}>
+                <View style={styles.row}>
+                  <View style={styles.col}>
+                    <Button disabled={this.props.orders.length > 0 ? false : true} full block onPress={this._handleConfirm} style={[borderRadius, {height: 71, backgroundColor: (this.props.orders.length > 0 ? theme.color.secondary : this.state.buttonCofirmColor)}]}>
+                      {this.props.ordersLoading && (
+                        <ActivityIndicator color="#fff" />
+                      )}
+                      {!this.props.ordersLoading && (
+                        <Text>Confirm</Text>
+                      )}
+                    </Button>
+                  </View>
+                  <View style={[styles.col, {paddingTop: 10}]}>
+                    <Button full onPress={this._toggleModal} style={[borderRadius, backgroundPrimary]}>
+                      <Text>View Bill</Text>
+                    </Button>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
+          )}
         </View>
 
         <Modal isVisible={this.state.isModalVisible}>
@@ -197,6 +199,17 @@ const styles = StyleSheet.create({
   spaceBetween: {
     flex:1, justifyContent: "space-between"
   },
+  cicleText: {
+    color: '#fff', 
+    borderColor: '#fff', 
+    borderWidth: 1, 
+    borderRadius: 100, 
+    padding: 5, 
+    paddingTop: 7, 
+    paddingBottom: 3,
+    width: 36,
+    textAlign: 'center'
+  },
   flatClear: {
     marginHorizontal: -5, 
     paddingTop: 5
@@ -208,7 +221,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 3
   },
   orderList: {
-    flex: 1,
+    flex: 1.2,
     paddingVertical: 5, 
     marginHorizontal: -10
   },
@@ -217,8 +230,5 @@ const styles = StyleSheet.create({
     borderWidth: 1, 
     paddingVertical: 10,
     borderColor: '#dedede'
-  },
-  buttonPrimary: {
-    // height: '60%'
   }
 })
