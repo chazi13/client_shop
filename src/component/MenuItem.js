@@ -51,7 +51,7 @@ class MenuItem extends Component {
                 <Text note>{name}</Text>
               </Body>
               <Right style={{flex: 1}}>
-                {isStared ? (<Icon name="star" color={theme.color.secondary} />) : (<Text></Text>)}
+                {isStared ? (<Icon name="star" color={theme.color.secondary} style={{color: theme.color.secondary}} />) : (<Text></Text>)}
               </Right>
             </View>
           </CardItem>
