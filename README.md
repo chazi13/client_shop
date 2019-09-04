@@ -65,6 +65,8 @@ API_URL=http://YOUR_DOMAIN:YOUR_PORT
 git clone https://github.com/chazi13/api_shop.git
 cd api_shop
 npm install
+npx sequelize-cli db:migrate
+npx sequelize-cli db:seed:all
 npm install nodemon -D
 npm start
 ```
