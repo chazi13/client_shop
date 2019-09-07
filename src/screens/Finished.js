@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import { View, Image, StyleSheet } from "react-native";
 import { Container, Content, Button, H3, Text } from 'native-base';
+import { connect } from "react-redux";
 
+import { truncateOrders } from "../_actions/orders";
 import { theme, container, formGroup, centeredItems, pt5, textCenter, borderRadius } from "../constants/styles";
 
 class Finished extends Component {
   
   _handleNavigate = () => {
+    this.props.dispatch(truncateOrders());
     this.props.navigation.navigate('Splash');
   }
 
@@ -40,7 +43,13 @@ class Finished extends Component {
   }
 }
 
-export default Finished;
+const mapStateToProps = (state) => {
+  return {
+    orders: state.orders.orders
+  }
+}
+
+export default connect(mapStateToProps)(Finished);
 
 const styles = StyleSheet.create({
   container: {
