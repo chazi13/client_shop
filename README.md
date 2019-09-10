@@ -29,8 +29,8 @@ Greenge is an application that is useful for customer to choose menu and see the
 
 ## Tech Stack
 
-- React Native for the Mobile Frontend
-- Express.js ad the backend
+- React Native for Mobile Frontend
+- Express.js for backend
 
 ## Prerequisites
 
